@@ -41,6 +41,19 @@ PDF pages and OCR-ready image copies are written only under
 `exam_materials/00_scans/_preprocessed/`, which is ignored by git. See
 [OCR_DECISION.md](OCR_DECISION.md) before adding OCR tools or model downloads.
 
+Before running OCR on a whole document, create a small local benchmark:
+
+```bash
+python3 scripts/ocr_sample_benchmark.py --root exam_materials --limit 5 --engine none
+```
+
+If `tesseract` and `pytesseract` are installed locally, test OCR on the same
+small sample:
+
+```bash
+python3 scripts/ocr_sample_benchmark.py --root exam_materials --limit 5 --engine tesseract
+```
+
 Run:
 
 ```bash
