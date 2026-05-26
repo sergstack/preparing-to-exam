@@ -26,7 +26,9 @@ self-check generation. They are not part of the preprocessing gate.
    text stubs.
 11. Use end-to-end review-pack runs only for controlled page ranges, with
    primary OCR, targeted recovery, and merge reports.
-12. Run batch OCR only after sample quality is acceptable, and keep OCR outputs
+12. Create checked text as a separate manual-review layer before any ticket
+   generation.
+13. Run batch OCR only after sample quality is acceptable, and keep OCR outputs
    ignored until manually validated.
 
 ## Transcription Mode
