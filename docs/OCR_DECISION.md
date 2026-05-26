@@ -24,7 +24,9 @@ self-check generation. They are not part of the preprocessing gate.
    the faster primary model as the default batch model.
 10. Merge primary and recovery OCR into one review pack before creating checked
    text stubs.
-11. Run batch OCR only after sample quality is acceptable, and keep OCR outputs
+11. Use end-to-end review-pack runs only for controlled page ranges, with
+   primary OCR, targeted recovery, and merge reports.
+12. Run batch OCR only after sample quality is acceptable, and keep OCR outputs
    ignored until manually validated.
 
 ## Transcription Mode

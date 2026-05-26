@@ -175,6 +175,16 @@ Merged OCR outputs go to `exam_materials/08_ocr_merged/`, which is ignored by
 git. This step only selects and packages OCR text for manual review; it does not
 summarize text or generate tickets.
 
+Run an end-to-end OCR review-pack pass for a controlled page range:
+
+```bash
+python3 scripts/ocr_end_to_end_review_pack.py --root exam_materials --ollama-url http://127.0.0.1:11434 --primary-model qwen2.5vl:7b --recovery-model qwen2.5vl:32b --start 21 --end 90 --chunk-size 10 --force
+```
+
+The end-to-end step runs primary OCR in chunks, retries problem pages with the
+recovery model, rebuilds the merged review pack, and writes ignored review
+reports under `exam_materials/09_review_reports/`. It does not generate tickets.
+
 ## Filename Convention
 
 Use this scan filename pattern:

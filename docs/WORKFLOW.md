@@ -121,6 +121,16 @@ preserves page order, and writes ignored artifacts to
 `exam_materials/08_ocr_merged/`. It does not call Ollama, rewrite content,
 summarize text, or generate tickets.
 
+For a larger controlled range, use the end-to-end review-pack orchestrator:
+
+```bash
+python3 scripts/ocr_end_to_end_review_pack.py --root exam_materials --ollama-url http://127.0.0.1:11434 --primary-model qwen2.5vl:7b --recovery-model qwen2.5vl:32b --start 21 --end 90 --chunk-size 10 --force
+```
+
+This runs primary OCR in chunks, recovery for problem pages, and merge review
+pack generation. It writes review reports under `exam_materials/09_review_reports/`,
+which is ignored by git.
+
 Run:
 
 ```bash
