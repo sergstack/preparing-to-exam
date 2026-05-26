@@ -120,12 +120,15 @@ Run a small OCR sample benchmark before processing a full document:
 python3 scripts/ocr_sample_benchmark.py --root exam_materials --limit 5 --engine none
 python3 scripts/ocr_sample_benchmark.py --root exam_materials --limit 5 --engine tesseract
 python3 scripts/ocr_sample_benchmark.py --root exam_materials --limit 5 --engine paddleocr
+python3 scripts/ocr_sample_benchmark.py --root exam_materials --limit 5 --engine ollama-vision --ollama-url http://127.0.0.1:11434 --model minicpm-v
 ```
 
 Benchmark outputs are local artifacts under `exam_materials/04_ocr_benchmark/`
 and are ignored by git.
 PaddleOCR is optional; install it only when needed with
 `python3 -m pip install paddleocr`.
+Ollama vision OCR is optional and uses the configured Ollama HTTP API; model
+pulls use `/api/pull` on that same server when `--pull-model` is passed.
 
 ## Filename Convention
 
