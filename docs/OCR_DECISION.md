@@ -18,7 +18,9 @@ self-check generation. They are not part of the preprocessing gate.
    the configured Ollama HTTP API on the same small sample.
 7. Download or configure a larger vision OCR model only if real scans show poor
    OCR quality.
-8. Run batch OCR only after sample quality is acceptable, and keep OCR outputs
+8. Compare larger Ollama vision models on the same fixed problem pages before
+   replacing the current batch OCR model.
+9. Run batch OCR only after sample quality is acceptable, and keep OCR outputs
    ignored until manually validated.
 
 ## Transcription Mode
@@ -35,6 +37,7 @@ turn OCR text into a finished ticket at the OCR stage.
 
 - PaddleOCR
 - Ollama vision models such as `minicpm-v`, `llava`, or `llama3.2-vision`
+- Larger Ollama vision models for targeted comparison, such as `qwen2.5vl:32b`
 - PaddleOCR-VL
 - PaddleOCR-VL GGUF
 
