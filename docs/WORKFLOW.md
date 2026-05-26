@@ -41,6 +41,15 @@ Then paste OCR or manually typed text into files under:
 exam_materials/01_text/
 ```
 
+Validate stubs before creating or relying on ticket drafts:
+
+```bash
+python scripts/validate_text_stubs.py --root exam_materials
+```
+
+Empty placeholder OCR text remains `pending`; non-empty OCR text can be marked
+`done` in `progress.xlsx`.
+
 ## 3. Ticket Drafts
 
 Run:

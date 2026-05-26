@@ -20,6 +20,7 @@ def test_create_text_stubs_for_registered_tickets(tmp_path, monkeypatch):
     assert "# Ticket 01 OCR Text" in content
     assert "- 00_scans/ticket_01_page_01.jpg" in content
     assert "[paste OCR text here]" in content
+    assert "## Manual checks" in content
     assert load_rows(root)["01"]["final_status"] == "raw"
 
 

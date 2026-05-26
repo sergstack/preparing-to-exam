@@ -4,3 +4,4 @@
 
 - Initialized minimal exam materials preprocessing foundation.
 - Hardened scan registration with dry-run summaries and filename checks.
+- Added OCR text stub validation and manual check placeholders.

@@ -64,6 +64,12 @@ Create raw text stubs:
 python scripts/create_text_stubs.py --root exam_materials
 ```
 
+Validate OCR/manual text stubs:
+
+```bash
+python scripts/validate_text_stubs.py --root exam_materials
+```
+
 Create ticket draft templates:
 
 ```bash
@@ -123,9 +129,10 @@ ready
 1. Put scans into `exam_materials/00_scans/`.
 2. Run scan registration.
 3. Create raw text stubs and paste OCR/manual text into them.
-4. Create ticket templates.
-5. Edit drafts in `02_tickets/`.
-6. Promote structurally complete drafts into `03_final/`.
+4. Validate text stubs before treating OCR/manual text as complete.
+5. Create ticket templates.
+6. Edit drafts in `02_tickets/`.
+7. Promote structurally complete drafts into `03_final/`.
 
 Use `--force` only when you intentionally want generated templates to be
 recreated.

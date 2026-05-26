@@ -30,6 +30,13 @@ REQUIRED_TICKET_SECTIONS = (
     "## Вопросы для самопроверки",
     "## Проверить по скану",
 )
+REQUIRED_TEXT_STUB_SECTIONS = (
+    "## Source scans",
+    "## OCR text",
+    "## Manual checks",
+    "## Notes",
+)
+OCR_PLACEHOLDER = "[paste OCR text here]"
 
 
 def now_iso() -> str:
@@ -161,6 +168,10 @@ def text_stub(ticket_id: str, scan_files: str) -> str:
 
 [paste OCR text here]
 
+## Manual checks
+- [ ] сверить текст по скану
+- [ ] отметить неразборчивые места
+
 ## Notes
 - [проверить по скану]
 """
@@ -192,3 +203,23 @@ def ticket_template(ticket_id: str) -> str:
 
 def missing_sections(text: str) -> list[str]:
     return [section for section in REQUIRED_TICKET_SECTIONS if section not in text]
+
+
+def section_content(text: str, heading: str) -> str:
+    start = text.find(heading)
+    if start == -1:
+        return ""
+    start += len(heading)
+    next_heading = text.find("\n## ", start)
+    if next_heading == -1:
+        return text[start:].strip()
+    return text[start:next_heading].strip()
+
+
+def missing_text_stub_sections(text: str) -> list[str]:
+    return [section for section in REQUIRED_TEXT_STUB_SECTIONS if section not in text]
+
+
+def has_non_empty_ocr_text(text: str) -> bool:
+    content = section_content(text, "## OCR text")
+    return bool(content and content != OCR_PLACEHOLDER)
