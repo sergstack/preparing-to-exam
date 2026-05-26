@@ -22,7 +22,9 @@ self-check generation. They are not part of the preprocessing gate.
    replacing the current batch OCR model.
 9. Use a stronger recovery model only for failed or weak pages while keeping
    the faster primary model as the default batch model.
-10. Run batch OCR only after sample quality is acceptable, and keep OCR outputs
+10. Merge primary and recovery OCR into one review pack before creating checked
+   text stubs.
+11. Run batch OCR only after sample quality is acceptable, and keep OCR outputs
    ignored until manually validated.
 
 ## Transcription Mode

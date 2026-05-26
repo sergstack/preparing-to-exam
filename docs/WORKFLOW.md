@@ -109,6 +109,18 @@ Recovery artifacts go to `exam_materials/07_ocr_recovery/`, which is ignored by
 git. Do not use the recovery model as the default full-document OCR model unless
 a later decision explicitly changes that.
 
+Merge primary and recovery OCR into one review pack before creating checked text
+stubs:
+
+```bash
+python3 scripts/ocr_merge_review_pack.py --root exam_materials --strip-service-headings --force
+```
+
+The merge step uses successful recovery pages instead of failed primary pages,
+preserves page order, and writes ignored artifacts to
+`exam_materials/08_ocr_merged/`. It does not call Ollama, rewrite content,
+summarize text, or generate tickets.
+
 Run:
 
 ```bash

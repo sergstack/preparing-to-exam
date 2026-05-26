@@ -164,6 +164,17 @@ Recovery outputs go to `exam_materials/07_ocr_recovery/`, which is ignored by
 git. The recovery model is for failed/problem pages only; it does not replace
 the primary batch OCR model.
 
+Merge primary and recovery OCR into a single review pack before creating checked
+text stubs:
+
+```bash
+python3 scripts/ocr_merge_review_pack.py --root exam_materials --strip-service-headings --force
+```
+
+Merged OCR outputs go to `exam_materials/08_ocr_merged/`, which is ignored by
+git. This step only selects and packages OCR text for manual review; it does not
+summarize text or generate tickets.
+
 ## Filename Convention
 
 Use this scan filename pattern:

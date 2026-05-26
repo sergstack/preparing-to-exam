@@ -15,3 +15,4 @@
 - Added controlled Ollama Vision batch OCR with page limits and validation summary.
 - Added stronger Ollama vision model comparison for fixed OCR problem pages.
 - Added OCR recovery workflow for retrying failed/problem pages with a stronger Ollama vision model.
+- Added OCR merge review pack for combining primary and recovery transcriptions.
