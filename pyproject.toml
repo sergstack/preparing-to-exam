@@ -1,0 +1,17 @@
+[project]
+name = "preparing-to-exam"
+version = "0.1.0"
+description = "Minimal local workflow for preparing exam materials from scans."
+requires-python = ">=3.11"
+dependencies = [
+  "openpyxl>=3.1,<4",
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest>=8,<9",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
