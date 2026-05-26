@@ -7,9 +7,10 @@ from pathlib import Path
 from exam_materials_lib import iter_preprocessed_images
 
 
-SUPPORTED_ENGINES = {"none", "tesseract"}
+SUPPORTED_ENGINES = {"none", "paddleocr", "tesseract"}
 MISSING_TESSERACT = "Missing OCR engine: tesseract. Install it locally before using --engine tesseract."
 MISSING_PYTESSERACT = "Missing optional dependency: pytesseract. Install with: python3 -m pip install pytesseract"
+MISSING_PADDLEOCR = "Missing optional OCR dependency: paddleocr.\nInstall with:\npython3 -m pip install paddleocr"
 
 
 def benchmark_dir(root: Path) -> Path:
@@ -36,8 +37,12 @@ def write_selection(root: Path, samples: list[Path]) -> None:
 def dependency_status(engine: str) -> tuple[bool, list[str]]:
     if engine == "none":
         return True, ["engine=none: OCR not run"]
-    if engine != "tesseract":
-        return False, [f"Unsupported OCR engine: {engine}"]
+    if engine == "paddleocr":
+        try:
+            import paddleocr  # noqa: F401
+            return True, ["paddleocr: found"]
+        except ImportError:
+            return False, [MISSING_PADDLEOCR]
 
     messages = []
     ok = True
@@ -55,6 +60,11 @@ def dependency_status(engine: str) -> tuple[bool, list[str]]:
     return ok, messages
 
 
+def write_ocr_result(root: Path, prefix: str, index: int, sample: Path, text: str) -> None:
+    target = benchmark_dir(root) / f"{prefix}_result_{index:03d}.md"
+    target.write_text(f"# {prefix.upper()} Result {index:03d}\n\nSource: `{sample.relative_to(root).as_posix()}`\n\n```text\n{text}\n```\n", encoding="utf-8")
+
+
 def run_tesseract(samples: list[Path], root: Path) -> list[int]:
     from PIL import Image
     import pytesseract
@@ -65,9 +75,69 @@ def run_tesseract(samples: list[Path], root: Path) -> list[int]:
         with Image.open(sample) as image:
             text = pytesseract.image_to_string(image, lang="rus+eng")
         lengths.append(len(text.strip()))
-        target = out_dir / f"ocr_result_{index:03d}.md"
-        target.write_text(f"# OCR Result {index:03d}\n\nSource: `{sample.relative_to(root).as_posix()}`\n\n```text\n{text}\n```\n", encoding="utf-8")
+        write_ocr_result(root, "ocr", index, sample, text)
     return lengths
+
+
+def extract_paddle_text(result: object) -> str:
+    texts: list[str] = []
+    for item in result or []:
+        data = getattr(item, "json", None)
+        if callable(data):
+            data = data()
+        if isinstance(data, dict):
+            json_data = data.get("res", data)
+            rec_texts = json_data.get("rec_texts")
+            if isinstance(rec_texts, list):
+                texts.extend(str(text) for text in rec_texts)
+    return "\n".join(texts)
+
+
+def run_paddleocr(samples: list[Path], root: Path) -> list[int]:
+    from paddleocr import PaddleOCR
+
+    try:
+        ocr = PaddleOCR(
+            lang="ru",
+            use_doc_orientation_classify=False,
+            use_doc_unwarping=False,
+            use_textline_orientation=False,
+        )
+    except Exception as exc:
+        print(f"PaddleOCR initialization failed: {exc}")
+        raise SystemExit(1)
+
+    lengths = []
+    for index, sample in enumerate(samples, start=1):
+        try:
+            result = ocr.predict(str(sample))
+            text = extract_paddle_text(result)
+        except Exception as exc:
+            print(f"PaddleOCR failed for {sample.name}: {exc}")
+            raise SystemExit(1)
+        lengths.append(len(text.strip()))
+        write_ocr_result(root, "paddleocr", index, sample, text)
+    return lengths
+
+
+def preview(text: str, limit: int = 300) -> str:
+    compact = " ".join(text.split())
+    return compact[:limit] if compact else ""
+
+
+def existing_result_previews(root: Path, samples: list[Path]) -> list[str]:
+    lines = []
+    out_dir = benchmark_dir(root)
+    for prefix in ("ocr", "paddleocr"):
+        for index, sample in enumerate(samples, start=1):
+            path = out_dir / f"{prefix}_result_{index:03d}.md"
+            if not path.exists():
+                continue
+            content = path.read_text(encoding="utf-8")
+            text = content.split("```text", 1)[-1].rsplit("```", 1)[0].strip()
+            engine = "tesseract" if prefix == "ocr" else "paddleocr"
+            lines.append(f"- {sample.relative_to(root).as_posix()} | {engine} | {len(text)} | {preview(text)}")
+    return lines or ["- none"]
 
 
 def write_summary(root: Path, samples: list[Path], engine: str, dependency_messages: list[str], lengths: list[int]) -> None:
@@ -96,6 +166,12 @@ def write_summary(root: Path, samples: list[Path], engine: str, dependency_messa
 
 {chr(10).join(length_lines)}
 
+## Existing Result Comparison
+
+Format: selected file | engine | text length | first 300 chars preview
+
+{chr(10).join(existing_result_previews(root, samples))}
+
 ## Manual Quality Checklist
 
 - русский текст читается?
@@ -106,10 +182,10 @@ def write_summary(root: Path, samples: list[Path], engine: str, dependency_messa
 
 ## Recommendation
 
-- use tesseract
-- try PaddleOCR
+- use PaddleOCR
 - try PaddleOCR-VL
 - manual OCR
+- change preprocessing settings
 """
     (benchmark_dir(root) / "ocr_benchmark_summary.md").write_text(content, encoding="utf-8")
 
@@ -135,7 +211,12 @@ def main() -> None:
         print(f"report written: {out_dir / 'ocr_benchmark_summary.md'}")
         raise SystemExit(1)
 
-    lengths = run_tesseract(samples, root) if args.engine == "tesseract" else [0 for _ in samples]
+    if args.engine == "tesseract":
+        lengths = run_tesseract(samples, root)
+    elif args.engine == "paddleocr":
+        lengths = run_paddleocr(samples, root)
+    else:
+        lengths = [0 for _ in samples]
     write_summary(root, samples, args.engine, messages, lengths)
     print(f"selected files: {len(samples)}")
     print(f"OCR engine: {args.engine}")
