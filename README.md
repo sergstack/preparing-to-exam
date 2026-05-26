@@ -102,6 +102,18 @@ Preview the batch pipeline without modifying local materials:
 python scripts/run_pipeline.py --root exam_materials --dry-run
 ```
 
+Run the local OCR preprocessing gate:
+
+```bash
+python scripts/ocr_benchmark_gate.py --root exam_materials
+python scripts/extract_pdf_pages.py --root exam_materials --dry-run
+python scripts/preprocess_scans.py --root exam_materials --dry-run
+```
+
+`extract_pdf_pages.py` uses optional `pymupdf` only when rendering PDF pages.
+`preprocess_scans.py` uses optional `Pillow` for image copies. Raw files are not
+modified.
+
 ## Filename Convention
 
 Use this scan filename pattern:

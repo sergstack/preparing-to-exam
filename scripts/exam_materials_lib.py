@@ -19,6 +19,7 @@ PROGRESS_COLUMNS = (
     "updated_at",
 )
 SUPPORTED_SCAN_SUFFIXES = {".jpg", ".jpeg", ".png", ".pdf"}
+SUPPORTED_IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png"}
 FINAL_STATUSES = {"raw", "ocr", "draft", "fix", "ready"}
 TICKET_RE = re.compile(r"^ticket_(?P<ticket>\d{2})_page_(?P<page>\d{2})\.(?:jpg|jpeg|png|pdf)$", re.IGNORECASE)
 RAW_TEXT_RE = re.compile(r"^ticket_(?P<ticket>\d{2})_raw\.md$")
@@ -48,6 +49,36 @@ def ensure_root(root: Path) -> None:
     root.mkdir(parents=True, exist_ok=True)
     for name in REQUIRED_DIRS:
         (root / name).mkdir(exist_ok=True)
+
+
+def scans_dir(root: Path) -> Path:
+    return root / "00_scans"
+
+
+def preprocessed_dir(root: Path) -> Path:
+    return scans_dir(root) / "_preprocessed"
+
+
+def iter_raw_scan_files(root: Path) -> list[Path]:
+    scan_root = scans_dir(root)
+    if not scan_root.exists():
+        return []
+    return sorted(path for path in scan_root.iterdir() if path.is_file() and path.suffix.lower() in SUPPORTED_SCAN_SUFFIXES)
+
+
+def iter_raw_pdf_files(root: Path) -> list[Path]:
+    return [path for path in iter_raw_scan_files(root) if path.suffix.lower() == ".pdf"]
+
+
+def iter_raw_image_files(root: Path) -> list[Path]:
+    return [path for path in iter_raw_scan_files(root) if path.suffix.lower() in SUPPORTED_IMAGE_SUFFIXES]
+
+
+def iter_preprocessed_images(root: Path) -> list[Path]:
+    folder = preprocessed_dir(root)
+    if not folder.exists():
+        return []
+    return sorted(path for path in folder.iterdir() if path.is_file() and path.suffix.lower() == ".png")
 
 
 def progress_path(root: Path) -> Path:
