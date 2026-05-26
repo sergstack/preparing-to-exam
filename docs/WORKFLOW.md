@@ -97,6 +97,18 @@ Comparison artifacts go to `exam_materials/06_model_compare/`, which is ignored
 by git. Model pulls use the configured remote Ollama HTTP API only when
 `--pull-missing` is passed.
 
+After batch OCR, build a retry list from failed, empty, very short, or
+frequently unreadable pages and recover only those pages with the stronger model:
+
+```bash
+python3 scripts/ollama_vision_recovery.py --root exam_materials --ollama-url http://127.0.0.1:11434 --primary-model qwen2.5vl:7b --recovery-model qwen2.5vl:32b --dry-run
+python3 scripts/ollama_vision_recovery.py --root exam_materials --ollama-url http://127.0.0.1:11434 --primary-model qwen2.5vl:7b --recovery-model qwen2.5vl:32b --pages 2,6 --force
+```
+
+Recovery artifacts go to `exam_materials/07_ocr_recovery/`, which is ignored by
+git. Do not use the recovery model as the default full-document OCR model unless
+a later decision explicitly changes that.
+
 Run:
 
 ```bash

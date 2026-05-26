@@ -20,7 +20,9 @@ self-check generation. They are not part of the preprocessing gate.
    OCR quality.
 8. Compare larger Ollama vision models on the same fixed problem pages before
    replacing the current batch OCR model.
-9. Run batch OCR only after sample quality is acceptable, and keep OCR outputs
+9. Use a stronger recovery model only for failed or weak pages while keeping
+   the faster primary model as the default batch model.
+10. Run batch OCR only after sample quality is acceptable, and keep OCR outputs
    ignored until manually validated.
 
 ## Transcription Mode
