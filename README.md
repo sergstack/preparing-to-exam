@@ -138,6 +138,9 @@ python3 scripts/ollama_vision_batch_ocr.py --root exam_materials --ollama-url ht
 
 Batch OCR writes ignored local artifacts under `exam_materials/05_ocr_pages/`.
 It does not process every page unless `--all` is explicitly passed.
+OCR output is near-verbatim transcription with light cleanup only: keep the
+author's wording, mark uncertain words as `[проверить: ...]`, and mark unreadable
+fragments as `[неразборчиво]`. Do not turn OCR text into tickets at this stage.
 
 ## Filename Convention
 

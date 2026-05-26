@@ -80,6 +80,10 @@ python3 scripts/ollama_vision_batch_ocr.py --root exam_materials --ollama-url ht
 
 Batch OCR outputs go to `exam_materials/05_ocr_pages/`, which is ignored by git.
 Use `--all` only when you intentionally want every preprocessed OCR image.
+The OCR layer is near-verbatim transcription with light cleanup only. Keep the
+author's wording, headings, lists, numbering, and abbreviations. Mark uncertain
+words as `[проверить: ...]` and unreadable fragments as `[неразборчиво]`; do not
+summarize or transform OCR output into tickets.
 
 Run:
 

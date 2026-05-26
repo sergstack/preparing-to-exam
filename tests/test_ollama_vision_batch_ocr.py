@@ -10,6 +10,19 @@ ROOT_DIR = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT_DIR / "scripts" / "ollama_vision_batch_ocr.py"
 
 
+def test_prompt_requires_near_verbatim_transcription():
+    sys.path.insert(0, str(ROOT_DIR / "scripts"))
+    from ollama_vision_batch_ocr import OCR_PROMPT
+
+    assert "слово в слово" in OCR_PROMPT
+    assert "пересказывать" in OCR_PROMPT
+    assert "сокращать" in OCR_PROMPT
+    assert "добавлять факты" in OCR_PROMPT
+    assert "готовый билет" in OCR_PROMPT
+    assert "[неразборчиво]" in OCR_PROMPT
+    assert "[проверить: ...]" in OCR_PROMPT
+
+
 def create_png(path: Path) -> None:
     try:
         from PIL import Image
