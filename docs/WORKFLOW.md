@@ -54,6 +54,12 @@ small sample:
 python3 scripts/ocr_sample_benchmark.py --root exam_materials --limit 5 --engine tesseract
 ```
 
+If Tesseract quality is poor, try optional PaddleOCR on the same small sample:
+
+```bash
+python3 scripts/ocr_sample_benchmark.py --root exam_materials --limit 5 --engine paddleocr
+```
+
 Run:
 
 ```bash

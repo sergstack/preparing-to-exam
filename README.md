@@ -119,10 +119,13 @@ Run a small OCR sample benchmark before processing a full document:
 ```bash
 python3 scripts/ocr_sample_benchmark.py --root exam_materials --limit 5 --engine none
 python3 scripts/ocr_sample_benchmark.py --root exam_materials --limit 5 --engine tesseract
+python3 scripts/ocr_sample_benchmark.py --root exam_materials --limit 5 --engine paddleocr
 ```
 
 Benchmark outputs are local artifacts under `exam_materials/04_ocr_benchmark/`
 and are ignored by git.
+PaddleOCR is optional; install it only when needed with
+`python3 -m pip install paddleocr`.
 
 ## Filename Convention
 

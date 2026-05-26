@@ -10,3 +10,4 @@
 - Added manual prompt pack documentation without LLM automation.
 - Added local OCR preprocessing gate scripts and decision documentation.
 - Added a local OCR sample benchmark for small preprocessed PNG samples.
+- Added optional PaddleOCR mode to the OCR sample benchmark.
