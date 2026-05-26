@@ -70,6 +70,17 @@ python3 scripts/ocr_sample_benchmark.py --root exam_materials --limit 5 --engine
 To install the selected model on that Ollama server, add `--pull-model`. The
 project does not use the local `ollama pull` shell command by default.
 
+After a successful sample, run a controlled batch OCR with an explicit limit or
+page range:
+
+```bash
+python3 scripts/ollama_vision_batch_ocr.py --root exam_materials --ollama-url http://127.0.0.1:11434 --model qwen2.5vl:7b --limit 10
+python3 scripts/ollama_vision_batch_ocr.py --root exam_materials --ollama-url http://127.0.0.1:11434 --model qwen2.5vl:7b --start 1 --end 10
+```
+
+Batch OCR outputs go to `exam_materials/05_ocr_pages/`, which is ignored by git.
+Use `--all` only when you intentionally want every preprocessed OCR image.
+
 Run:
 
 ```bash
