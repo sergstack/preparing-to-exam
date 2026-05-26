@@ -142,6 +142,17 @@ OCR output is near-verbatim transcription with light cleanup only: keep the
 author's wording, mark uncertain words as `[проверить: ...]`, and mark unreadable
 fragments as `[неразборчиво]`. Do not turn OCR text into tickets at this stage.
 
+Compare Ollama vision models on a fixed small page set before changing the batch
+OCR model:
+
+```bash
+python3 scripts/ollama_vision_model_compare.py --root exam_materials --ollama-url http://127.0.0.1:11434 --models qwen2.5vl:7b,qwen2.5vl:32b --pages 2,4,5,6,10 --pull-missing
+```
+
+Model comparison writes ignored local artifacts under
+`exam_materials/06_model_compare/`. Missing models are pulled through the
+configured remote Ollama HTTP API only when `--pull-missing` is passed.
+
 ## Filename Convention
 
 Use this scan filename pattern:
