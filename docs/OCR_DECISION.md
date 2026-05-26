@@ -21,6 +21,16 @@ self-check generation. They are not part of the preprocessing gate.
 8. Run batch OCR only after sample quality is acceptable, and keep OCR outputs
    ignored until manually validated.
 
+## Transcription Mode
+
+OCR output must be near-verbatim transcription with light cleanup only. Preserve
+the author's wording, terms, headings, lists, numbering, and abbreviations. Mark
+uncertain words as `[проверить: ...]` and unreadable fragments as
+`[неразборчиво]`.
+
+Do not summarize, shorten, explain, improve style, add facts, change terms, or
+turn OCR text into a finished ticket at the OCR stage.
+
 ## Later OCR Candidates
 
 - PaddleOCR
