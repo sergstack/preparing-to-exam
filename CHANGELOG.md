@@ -16,3 +16,4 @@
 - Added stronger Ollama vision model comparison for fixed OCR problem pages.
 - Added OCR recovery workflow for retrying failed/problem pages with a stronger Ollama vision model.
 - Added OCR merge review pack for combining primary and recovery transcriptions.
+- Added end-to-end OCR review-pack orchestration for controlled page ranges.
