@@ -76,6 +76,12 @@ Create ticket draft templates:
 python scripts/create_ticket_templates.py --root exam_materials
 ```
 
+Validate ticket drafts before promotion:
+
+```bash
+python scripts/validate_tickets.py --root exam_materials
+```
+
 Promote a complete ticket draft to final materials:
 
 ```bash
@@ -131,7 +137,7 @@ ready
 3. Create raw text stubs and paste OCR/manual text into them.
 4. Validate text stubs before treating OCR/manual text as complete.
 5. Create ticket templates.
-6. Edit drafts in `02_tickets/`.
+6. Edit and validate drafts in `02_tickets/`.
 7. Promote structurally complete drafts into `03_final/`.
 
 Use `--force` only when you intentionally want generated templates to be

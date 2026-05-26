@@ -30,6 +30,7 @@ REQUIRED_TICKET_SECTIONS = (
     "## Вопросы для самопроверки",
     "## Проверить по скану",
 )
+OPTIONAL_EMPTY_TICKET_SECTIONS = {"## Проверить по скану"}
 REQUIRED_TEXT_STUB_SECTIONS = (
     "## Source scans",
     "## OCR text",
@@ -203,6 +204,34 @@ def ticket_template(ticket_id: str) -> str:
 
 def missing_sections(text: str) -> list[str]:
     return [section for section in REQUIRED_TICKET_SECTIONS if section not in text]
+
+
+def meaningful_section_content(text: str, heading: str) -> str:
+    content = section_content(text, heading)
+    lines = []
+    for line in content.splitlines():
+        stripped = line.strip()
+        if not stripped or stripped in {"-", "1.", "2.", "3."}:
+            continue
+        lines.append(stripped)
+    return "\n".join(lines).strip()
+
+
+def validate_ticket_text(text: str) -> list[str]:
+    issues = [f"missing header: {section.removeprefix('## ')}" for section in missing_sections(text)]
+    if issues:
+        return issues
+
+    for section in REQUIRED_TICKET_SECTIONS:
+        if section in OPTIONAL_EMPTY_TICKET_SECTIONS:
+            continue
+        if not meaningful_section_content(text, section):
+            issues.append(f"empty section: {section.removeprefix('## ')}")
+
+    check_content = meaningful_section_content(text, "## Проверить по скану")
+    if check_content:
+        issues.append("unresolved scan checks")
+    return issues
 
 
 def section_content(text: str, heading: str) -> str:

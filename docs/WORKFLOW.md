@@ -64,6 +64,12 @@ Edit files under:
 exam_materials/02_tickets/
 ```
 
+Validate drafts:
+
+```bash
+python scripts/validate_tickets.py --root exam_materials
+```
+
 ## 4. Final Materials
 
 Promote a complete ticket:

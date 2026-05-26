@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from exam_materials_lib import copy_file, ensure_root, load_rows, missing_sections, save_rows, ticket_id_from_arg, upsert_ticket
+from exam_materials_lib import copy_file, ensure_root, load_rows, save_rows, ticket_id_from_arg, upsert_ticket, validate_ticket_text
 
 
 def main() -> None:
@@ -29,12 +29,13 @@ def main() -> None:
         return
 
     text = source.read_text(encoding="utf-8")
-    missing = missing_sections(text)
-    if missing:
+    issues = validate_ticket_text(text)
+    if issues:
         row["final_status"] = "fix"
-        row["check_notes"] = "missing sections: " + ", ".join(missing)
+        row["ticket_status"] = "fix"
+        row["check_notes"] = "; ".join(issues)
         save_rows(root, rows)
-        print(f"not promoted: missing sections: {', '.join(missing)}")
+        print(f"not promoted: {issues[0]}")
         return
 
     copied = copy_file(source, target, force=args.force)
