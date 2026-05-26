@@ -89,3 +89,17 @@ exam_materials/03_final/
 `progress.xlsx` tracks scan registration, OCR status, ticket draft status,
 review notes, final status, and update time. It is generated locally and ignored
 by git.
+
+## Batch Pipeline
+
+Run all safe local steps without auto-promotion:
+
+```bash
+python scripts/run_pipeline.py --root exam_materials
+```
+
+Preview without modifying local materials:
+
+```bash
+python scripts/run_pipeline.py --root exam_materials --dry-run
+```

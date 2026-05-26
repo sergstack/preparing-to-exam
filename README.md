@@ -88,6 +88,18 @@ Promote a complete ticket draft to final materials:
 python scripts/promote_ticket.py --root exam_materials --ticket 01
 ```
 
+Run the safe local pipeline without auto-promotion:
+
+```bash
+python scripts/run_pipeline.py --root exam_materials
+```
+
+Preview the batch pipeline without modifying local materials:
+
+```bash
+python scripts/run_pipeline.py --root exam_materials --dry-run
+```
+
 ## Filename Convention
 
 Use this scan filename pattern:
