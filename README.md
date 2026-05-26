@@ -52,6 +52,12 @@ Register scan files from `00_scans/`:
 python scripts/register_scans.py --root exam_materials
 ```
 
+Preview scan registration without modifying `progress.xlsx`:
+
+```bash
+python scripts/register_scans.py --root exam_materials --dry-run
+```
+
 Create raw text stubs:
 
 ```bash

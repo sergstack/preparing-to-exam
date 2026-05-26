@@ -115,6 +115,17 @@ def relative_scan_list(root: Path, files: list[Path]) -> str:
     return "\n".join(str(path.relative_to(root).as_posix()) for path in sorted(files))
 
 
+def duplicate_names(paths: list[Path]) -> list[str]:
+    seen: set[str] = set()
+    duplicates: set[str] = set()
+    for path in paths:
+        name = path.name.lower()
+        if name in seen:
+            duplicates.add(path.name)
+        seen.add(name)
+    return sorted(duplicates)
+
+
 def write_file(path: Path, content: str, force: bool = False) -> bool:
     if path.exists() and not force:
         return False

@@ -21,6 +21,12 @@ ticket_01_page_01.jpg
 ticket_01_page_02.jpg
 ```
 
+Preview registration before updating `progress.xlsx`:
+
+```bash
+python scripts/register_scans.py --root exam_materials --dry-run
+```
+
 ## 2. OCR or Manual Text
 
 Run:
