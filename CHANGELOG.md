@@ -8,3 +8,4 @@
 - Added ticket draft validation before promotion.
 - Added deterministic local batch pipeline command.
 - Added manual prompt pack documentation without LLM automation.
+- Added local OCR preprocessing gate scripts and decision documentation.

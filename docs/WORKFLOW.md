@@ -29,6 +29,18 @@ python scripts/register_scans.py --root exam_materials --dry-run
 
 ## 2. OCR or Manual Text
 
+For PDFs and image scans, run the local preprocessing gate before OCR:
+
+```bash
+python scripts/ocr_benchmark_gate.py --root exam_materials
+python scripts/extract_pdf_pages.py --root exam_materials --dry-run
+python scripts/preprocess_scans.py --root exam_materials --dry-run
+```
+
+PDF pages and OCR-ready image copies are written only under
+`exam_materials/00_scans/_preprocessed/`, which is ignored by git. See
+[OCR_DECISION.md](OCR_DECISION.md) before adding OCR tools or model downloads.
+
 Run:
 
 ```bash
