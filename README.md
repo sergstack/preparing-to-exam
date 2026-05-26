@@ -153,6 +153,17 @@ Model comparison writes ignored local artifacts under
 `exam_materials/06_model_compare/`. Missing models are pulled through the
 configured remote Ollama HTTP API only when `--pull-missing` is passed.
 
+Recover only failed or weak OCR pages with a stronger model:
+
+```bash
+python3 scripts/ollama_vision_recovery.py --root exam_materials --ollama-url http://127.0.0.1:11434 --primary-model qwen2.5vl:7b --recovery-model qwen2.5vl:32b --dry-run
+python3 scripts/ollama_vision_recovery.py --root exam_materials --ollama-url http://127.0.0.1:11434 --primary-model qwen2.5vl:7b --recovery-model qwen2.5vl:32b --pages 2,6 --force
+```
+
+Recovery outputs go to `exam_materials/07_ocr_recovery/`, which is ignored by
+git. The recovery model is for failed/problem pages only; it does not replace
+the primary batch OCR model.
+
 ## Filename Convention
 
 Use this scan filename pattern:
