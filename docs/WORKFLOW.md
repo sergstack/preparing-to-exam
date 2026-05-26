@@ -60,6 +60,16 @@ If Tesseract quality is poor, try optional PaddleOCR on the same small sample:
 python3 scripts/ocr_sample_benchmark.py --root exam_materials --limit 5 --engine paddleocr
 ```
 
+If local OCR quality remains poor, test an Ollama vision model through the
+remote HTTP API:
+
+```bash
+python3 scripts/ocr_sample_benchmark.py --root exam_materials --limit 5 --engine ollama-vision --ollama-url http://127.0.0.1:11434 --model minicpm-v
+```
+
+To install the selected model on that Ollama server, add `--pull-model`. The
+project does not use the local `ollama pull` shell command by default.
+
 Run:
 
 ```bash

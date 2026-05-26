@@ -14,12 +14,15 @@ self-check generation. They are not part of the preprocessing gate.
 4. Try manual paste or simple OCR first.
 5. If Tesseract produces unreadable text, benchmark optional PaddleOCR on the
    same small sample before moving to vision OCR.
-6. Download or configure a vision OCR model only if real scans show poor OCR
-   quality.
+6. If local OCR quality remains poor, benchmark an Ollama vision model through
+   the configured Ollama HTTP API on the same small sample.
+7. Download or configure a larger vision OCR model only if real scans show poor
+   OCR quality.
 
 ## Later OCR Candidates
 
 - PaddleOCR
+- Ollama vision models such as `minicpm-v`, `llava`, or `llama3.2-vision`
 - PaddleOCR-VL
 - PaddleOCR-VL GGUF
 
