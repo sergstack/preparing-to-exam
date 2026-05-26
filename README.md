@@ -11,6 +11,8 @@ scans -> OCR/manual text -> ticket drafts -> final study materials -> progress t
 It intentionally does not include RAG, vector databases, embeddings, a web UI,
 autonomous agents, external API calls, or mandatory OCR dependencies.
 
+Manual copy-ready prompts are available in [docs/PROMPTS.md](docs/PROMPTS.md).
+
 ## Quick Start
 
 ```bash

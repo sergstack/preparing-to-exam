@@ -103,3 +103,9 @@ Preview without modifying local materials:
 ```bash
 python scripts/run_pipeline.py --root exam_materials --dry-run
 ```
+
+## Manual Prompts
+
+Copy-ready prompts for OCR cleanup, ticket creation, self-check questions, and
+final review are available in [PROMPTS.md](PROMPTS.md). They are documentation
+only; there is no LLM runner or API integration.
