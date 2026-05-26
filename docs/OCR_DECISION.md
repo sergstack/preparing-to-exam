@@ -18,6 +18,8 @@ self-check generation. They are not part of the preprocessing gate.
    the configured Ollama HTTP API on the same small sample.
 7. Download or configure a larger vision OCR model only if real scans show poor
    OCR quality.
+8. Run batch OCR only after sample quality is acceptable, and keep OCR outputs
+   ignored until manually validated.
 
 ## Later OCR Candidates
 

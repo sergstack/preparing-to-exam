@@ -130,6 +130,15 @@ PaddleOCR is optional; install it only when needed with
 Ollama vision OCR is optional and uses the configured Ollama HTTP API; model
 pulls use `/api/pull` on that same server when `--pull-model` is passed.
 
+Run a controlled Ollama Vision batch OCR only after the sample quality is good:
+
+```bash
+python3 scripts/ollama_vision_batch_ocr.py --root exam_materials --ollama-url http://127.0.0.1:11434 --model qwen2.5vl:7b --limit 10
+```
+
+Batch OCR writes ignored local artifacts under `exam_materials/05_ocr_pages/`.
+It does not process every page unless `--all` is explicitly passed.
+
 ## Filename Convention
 
 Use this scan filename pattern:
