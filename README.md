@@ -114,6 +114,16 @@ python scripts/preprocess_scans.py --root exam_materials --dry-run
 `preprocess_scans.py` uses optional `Pillow` for image copies. Raw files are not
 modified.
 
+Run a small OCR sample benchmark before processing a full document:
+
+```bash
+python3 scripts/ocr_sample_benchmark.py --root exam_materials --limit 5 --engine none
+python3 scripts/ocr_sample_benchmark.py --root exam_materials --limit 5 --engine tesseract
+```
+
+Benchmark outputs are local artifacts under `exam_materials/04_ocr_benchmark/`
+and are ignored by git.
+
 ## Filename Convention
 
 Use this scan filename pattern:
