@@ -131,6 +131,19 @@ This runs primary OCR in chunks, recovery for problem pages, and merge review
 pack generation. It writes review reports under `exam_materials/09_review_reports/`,
 which is ignored by git.
 
+Create checked text stubs from the merged OCR review pack, validate them, and
+build the combined checked text document:
+
+```bash
+python3 scripts/create_checked_text_stubs.py --root exam_materials
+python3 scripts/validate_checked_text.py --root exam_materials
+python3 scripts/build_checked_text_full.py --root exam_materials
+```
+
+Checked text artifacts go to `exam_materials/10_checked_text/`, which is ignored
+by git. Manual edits happen there locally. Do not generate tickets until checked
+text has been reviewed.
+
 Run:
 
 ```bash

@@ -185,6 +185,18 @@ The end-to-end step runs primary OCR in chunks, retries problem pages with the
 recovery model, rebuilds the merged review pack, and writes ignored review
 reports under `exam_materials/09_review_reports/`. It does not generate tickets.
 
+Create a checked text layer from the merged OCR review pack:
+
+```bash
+python3 scripts/create_checked_text_stubs.py --root exam_materials
+python3 scripts/validate_checked_text.py --root exam_materials
+python3 scripts/build_checked_text_full.py --root exam_materials
+```
+
+Checked text outputs go to `exam_materials/10_checked_text/`, which is ignored
+by git. This layer is for manual near-verbatim correction and validation before
+any ticket generation.
+
 ## Filename Convention
 
 Use this scan filename pattern:
