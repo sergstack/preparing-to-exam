@@ -32,3 +32,20 @@ def test_create_ticket_templates_does_not_overwrite_without_force(tmp_path, monk
     templates_main()
 
     assert target.read_text(encoding="utf-8") == "custom"
+
+
+def test_create_ticket_templates_dry_run_does_not_modify_files_or_progress(tmp_path, monkeypatch, capsys):
+    root = tmp_path / "exam_materials"
+    monkeypatch.setattr("sys.argv", ["init_exam_materials.py", "--root", str(root)])
+    init_main()
+    (root / "01_text" / "ticket_01_raw.md").write_text("# raw", encoding="utf-8")
+    before = (root / "progress.xlsx").read_bytes()
+
+    monkeypatch.setattr("sys.argv", ["create_ticket_templates.py", "--root", str(root), "--dry-run"])
+    templates_main()
+
+    assert (root / "progress.xlsx").read_bytes() == before
+    assert not (root / "02_tickets" / "ticket_01.md").exists()
+    output = capsys.readouterr().out
+    assert "ticket templates created: 1" in output
+    assert "dry-run: no files or progress workbook modified" in output

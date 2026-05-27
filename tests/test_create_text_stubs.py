@@ -48,3 +48,22 @@ def test_create_text_stubs_does_not_overwrite_without_force(tmp_path, monkeypatc
     stubs_main()
 
     assert target.read_text(encoding="utf-8") == "custom"
+
+
+def test_create_text_stubs_dry_run_does_not_modify_files_or_progress(tmp_path, monkeypatch, capsys):
+    root = tmp_path / "exam_materials"
+    monkeypatch.setattr("sys.argv", ["init_exam_materials.py", "--root", str(root)])
+    init_main()
+    (root / "00_scans" / "ticket_01_page_01.jpg").write_text("", encoding="utf-8")
+    monkeypatch.setattr("sys.argv", ["register_scans.py", "--root", str(root)])
+    register_main()
+    before = (root / "progress.xlsx").read_bytes()
+
+    monkeypatch.setattr("sys.argv", ["create_text_stubs.py", "--root", str(root), "--dry-run"])
+    stubs_main()
+
+    assert (root / "progress.xlsx").read_bytes() == before
+    assert not (root / "01_text" / "ticket_01_raw.md").exists()
+    output = capsys.readouterr().out
+    assert "text stubs created: 1" in output
+    assert "dry-run: no files or progress workbook modified" in output

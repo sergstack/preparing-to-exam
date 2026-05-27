@@ -27,6 +27,12 @@ Preview registration before updating `progress.xlsx`:
 python scripts/register_scans.py --root exam_materials --dry-run
 ```
 
+Then register supported scan/PDF files:
+
+```bash
+python scripts/register_scans.py --root exam_materials
+```
+
 ## 2. OCR or Manual Text
 
 For PDFs and image scans, run the local preprocessing gate before OCR:
@@ -144,9 +150,22 @@ Checked text artifacts go to `exam_materials/10_checked_text/`, which is ignored
 by git. Manual edits happen there locally. Do not generate tickets until checked
 text has been reviewed.
 
+Optional local Ollama quality review can be run on a small checked-text or
+ticket sample after manual validation:
+
+```bash
+python3 scripts/ollama_quality_gate.py --input exam_materials/10_checked_text --sample 5 --dry-run
+python3 scripts/ollama_quality_gate.py --input exam_materials/02_tickets --sample 5 --model qwen2.5:7b --timeout 60 --output exam_materials/09_review_reports/ollama_quality_review.md
+```
+
+The quality gate is report-only. It does not run in CI, does not overwrite
+materials, rejects non-local Ollama URLs, and should be treated as an advisory
+check before human review.
+
 Run:
 
 ```bash
+python scripts/create_text_stubs.py --root exam_materials --dry-run
 python scripts/create_text_stubs.py --root exam_materials
 ```
 
@@ -170,6 +189,7 @@ Empty placeholder OCR text remains `pending`; non-empty OCR text can be marked
 Run:
 
 ```bash
+python scripts/create_ticket_templates.py --root exam_materials --dry-run
 python scripts/create_ticket_templates.py --root exam_materials
 ```
 
