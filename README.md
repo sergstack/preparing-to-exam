@@ -21,9 +21,13 @@ source .venv/bin/activate
 pip install -r requirements.txt
 
 python scripts/init_exam_materials.py --root exam_materials
+python scripts/register_scans.py --root exam_materials --dry-run
 python scripts/register_scans.py --root exam_materials
+python scripts/create_text_stubs.py --root exam_materials --dry-run
 python scripts/create_text_stubs.py --root exam_materials
+python scripts/create_ticket_templates.py --root exam_materials --dry-run
 python scripts/create_ticket_templates.py --root exam_materials
+python scripts/run_pipeline.py --root exam_materials --dry-run
 python scripts/promote_ticket.py --root exam_materials --ticket 01
 ```
 
@@ -63,6 +67,7 @@ python scripts/register_scans.py --root exam_materials --dry-run
 Create raw text stubs:
 
 ```bash
+python scripts/create_text_stubs.py --root exam_materials --dry-run
 python scripts/create_text_stubs.py --root exam_materials
 ```
 
@@ -75,6 +80,7 @@ python scripts/validate_text_stubs.py --root exam_materials
 Create ticket draft templates:
 
 ```bash
+python scripts/create_ticket_templates.py --root exam_materials --dry-run
 python scripts/create_ticket_templates.py --root exam_materials
 ```
 
@@ -196,6 +202,20 @@ python3 scripts/build_checked_text_full.py --root exam_materials
 Checked text outputs go to `exam_materials/10_checked_text/`, which is ignored
 by git. This layer is for manual near-verbatim correction and validation before
 any ticket generation.
+
+Run an optional local Ollama quality review on a small sample of checked text or
+ticket drafts:
+
+```bash
+python3 scripts/ollama_quality_gate.py --input exam_materials/10_checked_text --sample 5 --dry-run
+python3 scripts/ollama_quality_gate.py --input exam_materials/02_tickets --sample 5 --model qwen2.5:7b --timeout 60 --output exam_materials/09_review_reports/ollama_quality_review.md
+```
+
+This quality gate is advisory only. It calls only a local Ollama URL by default,
+uses a bounded sample, writes a review report, and never edits source materials
+or final materials. If Ollama is unavailable, the command exits cleanly with a
+non-zero status and writes the failure note to the report when `--output` is
+provided.
 
 ## Filename Convention
 
